@@ -1,22 +1,6 @@
 [
 	{
-		"name":"CORSAIR Void RGB wireless", 
-		"PID":"1B27"
-	},
-	{
-		"name":"CORSAIR HS70 Wireless Gaming Headset",
-		"PID":"0A38"
-	},
-	{
-		"name":"Corsair VOID PRO Wireless Gaming Headset I",
-		"PID":"0A14"
-	},
-	{
-		"name":"Corsair VOID PRO Wireless Gaming Headset II",
-		"PID":"0A16"
-	},
-	{
-		"name":"Corsair VOID RGB Elite Wireless Gaming Headset",
-		"PID":"0A51"
+		"name": "Corsair VOID Elite Wireless Gaming Headset",
+		"PID": "0A51"
 	}
 ]

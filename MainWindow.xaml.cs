@@ -40,7 +40,7 @@ namespace VoidProOverlay
             exitKeyHook = new KeyboardHook(this, VirtualKeyCodes.X, ModifierKeyCodes.Alt, 1);
             exitKeyHook.Triggered += exitHotkeyEvent;
 
-            switchModeKeyHook = new KeyboardHook(this, VirtualKeyCodes.Q, ModifierKeyCodes.Alt, 2);
+            switchModeKeyHook = new KeyboardHook(this, VirtualKeyCodes.S, ModifierKeyCodes.Alt, 2);
             switchModeKeyHook.Triggered += switchModeKeyEvent;
 
             setupTrayIcon();
