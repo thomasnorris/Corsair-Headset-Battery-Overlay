@@ -7,6 +7,8 @@ using System.Windows.Threading;
 using System.Threading.Tasks;
 using HidApiAdapter;
 using System.Reflection;
+using System.Windows.Media;
+using VoidProOverlay.classes;
 
 namespace VoidProOverlay
 {
@@ -22,7 +24,7 @@ namespace VoidProOverlay
         private int?[] lastValues { get; set; }
         private const int filterLength = 25;
 
-        private System.Windows.Controls.Label mainLabel;
+        private Label mainLabel;
         private Image mainImage;
         private Dispatcher dispatcher;
         private HidDevice device;
@@ -74,12 +76,17 @@ namespace VoidProOverlay
                     handleReport(buffer);
                 }
                 else {
-                    setLabelContent("device not found");
+                    setLabelContent("Device Not Found!", Brushes.Red);
                 }
             }
-        } 
+        }
 
         public void setLabelContent(string text)
+        {
+            this.setLabelContent(text, Brushes.White);
+        }
+
+        public void setLabelContent(string text, SolidColorBrush brush)
         {
             this.dispatcher.Invoke(() =>
             {
@@ -91,10 +98,28 @@ namespace VoidProOverlay
                     string txt;
                     try
                     {
-                        txt = filterValue(Int16.Parse(text)).ToString() + "%";
+                        int val = Int16.Parse(text);
+                        txt = "Headset Battery Level: " + filterValue(val).ToString() + "%";
+
+                        if (val <= 25)
+                            mainLabel.Foreground = Brushes.Red;
+                        else if (val <= 50)
+                            mainLabel.Foreground = Brushes.Yellow;
+                        else
+                            mainLabel.Foreground = Brushes.LimeGreen;
                     }
-                    catch { txt = text; }
+                    catch { 
+                        txt = text;
+                        mainLabel.Foreground = brush;
+                    }
                     mainLabel.Content = txt;
+
+                    // also get volume level
+                    var level = (int)AudioManager.GetMasterVolume();
+                    mainLabel.Content += "\nMaster Volume Level: " + level;
+
+                    // also say System Sounds volume level
+
                 }
                 else
                 {
@@ -186,7 +211,7 @@ namespace VoidProOverlay
 
                     byte[] buffer = new byte[5];
                     HidApi.hid_write(devPtr, data_req, Convert.ToUInt32(data_req.Length));
-                    HidApi.hid_read_timeout(devPtr, buffer, Convert.ToUInt32(buffer.Length),1000);
+                    HidApi.hid_read_timeout(devPtr, buffer, Convert.ToUInt32(buffer.Length), 1000);
                     device.Disconnect();
                     Thread.Sleep(250);
                     return buffer;
@@ -202,10 +227,17 @@ namespace VoidProOverlay
         {
             try
             {
+                // Disconnected
+                if (data[2] == 0)
+                {
+                    setLabelContent("Headset Disconnected", Brushes.Red);
+                    return;
+                }
+
                 //If Charging
                 if (data[4] == 0 || data[4] == 4 || data[4] == 5)
                 {
-                    setLabelContent("Battery Charging");
+                    setLabelContent("Headset Charging", Brushes.LimeGreen);
                     this.lastValues = new int?[filterLength];
                     return;
                 }

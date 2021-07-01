@@ -6,17 +6,17 @@
         xmlns:local="clr-namespace:VoidProOverlay"
         Name="VoidProBatteryOverlay"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200" Width="200" WindowStyle="None"
-        AllowsTransparency="True"
-        Background="Transparent"
+        Title="MainWindow" Height="200" Width="200"
+        Background="#7F000000"
+        Opacity="1"
         Topmost="True"
         Loaded="Window_Loaded"
         ShowInTaskbar="false"
-        Closing="VoidProBatteryOverlay_Closing">
+        Closing="VoidProBatteryOverlay_Closing" AllowsTransparency="True" WindowStyle="None">
     <Viewbox>
         <StackPanel Orientation="Vertical">
-            <Image Name="mainImage" Stretch="Fill" MouseLeftButtonDown="MainImage_MouseLeftButtonDown"></Image>
-            <Label Name="mainLabel" Foreground="Red" MouseLeftButtonDown="MainLabel_MouseLeftButtonDown">Error</Label>
+            <Image Name="mainImage" Stretch="Fill" MouseLeftButtonDown="MainImage_MouseLeftButtonDown" Opacity="1.2"></Image>
+            <Label Name="mainLabel" Foreground="Red" MouseLeftButtonDown="MainLabel_MouseLeftButtonDown">MainLabel</Label>
         </StackPanel>
     </Viewbox>
 </Window>
